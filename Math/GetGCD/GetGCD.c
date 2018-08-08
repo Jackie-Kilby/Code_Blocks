@@ -6,7 +6,8 @@
  * Developer:   Jack Kilby
  * Parametric:  void
  * Return:      int, greatest common divisor of 2 number.
- * 
+ * First Breed: 2018-06-29
+ * Update：     2018-08-09  Delete the getchar return value, which is no use.
  * ********************************************************/
 int iGetGreatestCommonDivisors(void)
 {
@@ -32,7 +33,7 @@ int main(void)
 {
     printf("Get Greatest Commin Divisors from the numbers below.\n");
     iGetGreatestCommonDivisors();
-    int a = getchar();
-    int b = getchar();                                      //Jack: For not close the console window, need to input a ENTER here to close.
+    getchar();
+    getchar();                                      //Jack: For not close the console window, need to input a ENTER here to close.
     return 0;
 }
