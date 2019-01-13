@@ -3,7 +3,7 @@
 /***********************************************************
  * 
  * Function:    vGetPrime   
- * Description: Get the prime numbers from an number array
+ * Description: Get the prime numbers from an number array（获取质数）
  * Developer:   Jack Kilby
  * First Breed: 2018-07-13
  * Parametric:  int prime[], the prime inputted
