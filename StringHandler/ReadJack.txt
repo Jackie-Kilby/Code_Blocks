@@ -1,0 +1,2 @@
+[VSCode] This folder can be opened by VSCode.
+[GCC] The main.c can be built by GCC.
