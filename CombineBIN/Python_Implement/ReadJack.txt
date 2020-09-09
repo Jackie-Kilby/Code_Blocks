@@ -1,0 +1,2 @@
+Cmd:
+Python3 gen_SmartSwitchGen3_Production --pa 1M.bin --pb TRTL_Switch_LPN.bin --combin Combine.bin
