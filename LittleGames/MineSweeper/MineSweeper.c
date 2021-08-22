@@ -44,35 +44,18 @@ void init_field(void)
 }
 
 
-void refresh_map(void)
+void show_map(char pmap[][COL], char rows, char cols)
 {
     char i=0, j=0;
     printf("\t");
-    for (j=0; j<COL; j++) {
+    for (j=0; j<cols; j++) {
         printf("%d ", j);
     }
     printf("\r\n");
-    for (i=0; i<ROW; i++) {
+    for (i=0; i<rows; i++) {
         printf("%d\t", i);
-        for (j=0; j<COL; j++) {
-            printf("%c ", map[i][j]);
-        }
-        printf("\r\n");
-    }
-}
-
-void refresh_field(void)
-{
-    char i=0, j=0;
-    printf("\t");
-    for (j=0; j<COL; j++) {
-        printf("%d ", j);
-    }
-    printf("\r\n");
-    for (i=0; i<ROW; i++) {
-        printf("%d\t", i);
-        for (j=0; j<COL; j++) {
-            printf("%c ", field[i][j]);
+        for (j=0; j<cols; j++) {
+            printf("%c ", pmap[i][j]);
         }
         printf("\r\n");
     }
@@ -84,7 +67,7 @@ int main(void)
     init_map();
     init_field();
     printf("Hello, Mine Sweeper!\r\n");
-    refresh_field();        //For debug.
+    show_map(field, ROW, COL);        //For debug.
 
     while (1) {
         //Ask user to input position to discover
@@ -92,7 +75,7 @@ int main(void)
         scanf("%d", &x);
         //Check mine in field
         //Refresh map
-        refresh_map();
+        show_map(map, ROW, COL);
     }
     return 0;
 }
