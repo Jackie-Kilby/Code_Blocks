@@ -61,9 +61,19 @@ void show_map(char pmap[][COL], char rows, char cols)
     }
 }
 
+void check_mine(int row, int col)
+{
+    if ('X' == field[row][col]) {
+        map[row][col] = 'X';
+    } else {
+        //TODO: Calculate surrounding mines
+        map[row][col] = ' ';
+    }
+}
+
 int main(void)
 {
-    int x;
+    int x=0, y=0;
     init_map();
     init_field();
     printf("Hello, Mine Sweeper!\r\n");
@@ -71,9 +81,11 @@ int main(void)
 
     while (1) {
         //Ask user to input position to discover
-        printf("Please input a num:");
-        scanf("%d", &x);
+        printf("Please input position as \"row col\":");
+        scanf("%d %d", &x, &y);
         //Check mine in field
+        printf("Input row: %d, col: %d.\r\n", x, y);
+        check_mine(x, y);
         //Refresh map
         show_map(map, ROW, COL);
     }
