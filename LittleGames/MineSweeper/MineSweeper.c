@@ -12,12 +12,6 @@ char field[ROW][COL] = {};
 
 void init_map(void)
 {
-//    char i=0, j=0;
-//    for (i=0; i<ROW; i++) {
-//        for (j=0; j<COL; j++) {
-//            map[i][j] = '*';
-//        }
-//    }
     memset(map, '*', ROW*COL);
 }
 
@@ -29,11 +23,6 @@ void init_field(void)
     srand(time(NULL));
         
     //Init field with blank
-//    for (i=0; i<ROW; i++) {
-//        for (j=0; j<COL; j++) {
-//            field[i][j] = ' ';
-//        }
-//    }
     memset(field, ' ', ROW*COL);
     //Set mines
     for (mine_cnt=0; mine_cnt<MINE_NUM_SET; ) {
@@ -93,7 +82,8 @@ void check_mine(int row, int col)
 
 int main(void)
 {
-    int x=0, y=0;
+    unsigned int x=0, y=0;
+    char c = 0;
     init_map();
     init_field();
     printf("Hello, Mine Sweeper!\r\n");
@@ -102,12 +92,27 @@ int main(void)
     while (1) {
         //Ask user to input position to discover
         printf("Please input position as \"row col\":");
-        scanf("%d %d", &x, &y);
-        //Check mine in field
-        printf("Input row: %d, col: %d.\r\n", x, y);
-        check_mine(x, y);
-        //Refresh map
-        show_map(map, ROW, COL);
+        if(scanf("%d %d", &x, &y) == 2) {
+            if (x<ROW && y<COL) {
+                printf("Input row: %d, col: %d.\r\n", x, y);
+                //Check mine in field
+                check_mine(x, y);
+                //Refresh map
+                show_map(map, ROW, COL);
+            } else {
+                printf("Your input is out of map.\r\n");
+            }
+        }else{
+            printf("\"");
+            while(c = getchar()) {
+                if ('\n' == c) {
+                    printf(" \"is invalid. Please input again.\r\n");
+                    break;
+                } else {
+                    printf("%c", c);
+                }
+            }
+        }
     }
     return 0;
 }
