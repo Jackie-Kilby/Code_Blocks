@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
+#include <memory.h>
 
 #define ROW    10    
 #define COL    10
@@ -11,12 +12,13 @@ char field[ROW][COL] = {};
 
 void init_map(void)
 {
-    char i=0, j=0;
-    for (i=0; i<ROW; i++) {
-        for (j=0; j<COL; j++) {
-            map[i][j] = '*';
-        }
-    }
+//    char i=0, j=0;
+//    for (i=0; i<ROW; i++) {
+//        for (j=0; j<COL; j++) {
+//            map[i][j] = '*';
+//        }
+//    }
+    memset(map, '*', ROW*COL);
 }
 
 void init_field(void)
@@ -27,11 +29,12 @@ void init_field(void)
     srand(time(NULL));
         
     //Init field with blank
-    for (i=0; i<ROW; i++) {
-        for (j=0; j<COL; j++) {
-            field[i][j] = ' ';
-        }
-    }
+//    for (i=0; i<ROW; i++) {
+//        for (j=0; j<COL; j++) {
+//            field[i][j] = ' ';
+//        }
+//    }
+    memset(field, ' ', ROW*COL);
     //Set mines
     for (mine_cnt=0; mine_cnt<MINE_NUM_SET; ) {
         i = rand() % ROW;
@@ -94,7 +97,7 @@ int main(void)
     init_map();
     init_field();
     printf("Hello, Mine Sweeper!\r\n");
-    show_map(field, ROW, COL);        //For debug.
+    show_map(map, ROW, COL);        //For debug.
 
     while (1) {
         //Ask user to input position to discover
