@@ -53,10 +53,11 @@ void show_map(char pmap[][COL], char rows, char cols)
     }
 }
 
-void check_mine(int row, int col)
+char check_mine(int row, int col)
 {
     if ('X' == field[row][col]) {
         map[row][col] = 'X';
+        return -1;
     } else {
         char i=0, j=0;
         map[row][col] = '0';
@@ -77,6 +78,7 @@ void check_mine(int row, int col)
                 }
             }
         }
+        return 0;
     }
 }
 
@@ -84,35 +86,60 @@ int main(void)
 {
     unsigned int x=0, y=0;
     char c = 0;
-    init_map();
-    init_field();
-    printf("Hello, Mine Sweeper!\r\n");
-    show_map(map, ROW, COL);        //For debug.
+    while(1) {
+        init_map();
+        init_field();
+        printf("Hello, Mine Sweeper!\r\n");
+        show_map(map, ROW, COL);        //For debug.
 
-    while (1) {
-        //Ask user to input position to discover
-        printf("Please input position as \"row col\":");
-        if(scanf("%d %d", &x, &y) == 2) {
-            if (x<ROW && y<COL) {
-                printf("Input row: %d, col: %d.\r\n", x, y);
-                //Check mine in field
-                check_mine(x, y);
-                //Refresh map
-                show_map(map, ROW, COL);
-            } else {
-                printf("Your input is out of map.\r\n");
-            }
-        }else{
-            printf("\"");
-            while(c = getchar()) {
-                if ('\n' == c) {
-                    printf(" \"is invalid. Please input again.\r\n");
-                    break;
+        while (1) {
+            //Ask user to input position to discover
+            printf("Please input position as \"row col\":");
+            if(scanf("%d %d", &x, &y) == 2) {
+                if (x<ROW && y<COL) {
+                    printf("Input row: %d, col: %d.\r\n", x, y);
+                    //Check mine in field
+                    if (check_mine(x, y)) {
+                        getchar();
+                        printf("!!! You stepped on MINE! Boooooomb!\r\n");
+                        break;
+                    } else {
+                        //Refresh map
+                        show_map(map, ROW, COL);
+                    }
                 } else {
-                    printf("%c", c);
+                    printf("Your input is out of map.\r\n");
+                }
+            }else{
+                if ('q' == getchar()) {
+                    printf("Exit now.\r\n");
+                    return 0;
+                }
+                printf("\"");
+                while(c = getchar()) {
+                    if ('\n' == c) {
+                        printf(" \"is invalid. Please input again.\r\n");
+                        break;
+                    } else {
+                        printf("%c", c);
+                    }
                 }
             }
         }
+AGAIN:
+        printf("Do you want to play again?(Y:Yes. N:Exit)");
+        if (1 == scanf("%c", &c)) {
+            if ('Y' == c || 'y' == c) {
+                continue;
+            } else if ('N' == c || 'n' == c) {
+                printf("Bye!\r\n");
+                break;
+            } else {
+                while ('\n' != getchar());
+                printf("Please input again.\r\n");
+                goto AGAIN;
+            }
+        } 
     }
     return 0;
 }
