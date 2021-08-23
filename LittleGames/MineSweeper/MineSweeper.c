@@ -66,27 +66,22 @@ void check_mine(int row, int col)
     if ('X' == field[row][col]) {
         map[row][col] = 'X';
     } else {
-        //Calculate surrounding mines
-        //map[row][col] = ' ';
-        //map[row][col] = field[row-1][col-1] + \
-        //                field[row-1][col] + \
-        //                field[row-1][col+1] + \
-        //                field[row][col-1] + \
-        //                field[row][col+1] + \
-        //                field[row+1][col-1] + \
-        //                field[row+1][col] + \
-        //                field[row+1][col+1];
         char i=0, j=0;
-        //for (i=row-1; i<=row+1; i++) {
-        //    for (j=col-1; j<=col+1; j++) {
-        //    }
-        //}
         map[row][col] = '0';
         for (i=(row?(row-1):row); i<=((row==9)?row:(row+1)); i++) {
             for (j=(col?(col-1):col); j<=((col==9)?col:(col+1)); j++) {
                 //printf("Field[%d][%d] = %c\r\n", i, j, field[i][j]);
                 if ('X' == field[i][j]) {
                     map[row][col]++;
+                }
+            }
+        }
+        if ('0' == map[row][col]) {
+            for (i=(row?(row-1):row); i<=((row==9)?row:(row+1)); i++) {
+                for (j=(col?(col-1):col); j<=((col==9)?col:(col+1)); j++) {
+                    if ('*' == map[i][j]) {
+                        check_mine(i,j);
+                    }
                 }
             }
         }
