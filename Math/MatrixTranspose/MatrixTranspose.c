@@ -62,7 +62,9 @@ int main(void)
     int i;
 #ifdef ARRAY_INPUT
     printf("Please your %d x %d Array with an Enter end of each line:\n",LINES_NUM_OF_ARRAY,ROWS_NUM_OF_ARRAY);
-    for(i=0;i<LINES_NUM_OF_ARRAY;i++)
+    fflush(stdout);
+
+	for(i=0;i<LINES_NUM_OF_ARRAY;i++)
     {
         scanf("%d %d %d",&array[i][0],&array[i][1],&array[i][2]);
     }
