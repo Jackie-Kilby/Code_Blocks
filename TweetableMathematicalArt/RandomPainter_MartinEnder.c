@@ -2,6 +2,7 @@
 #include <stdio.h>	//<iostream>
 #include <math.h>	//<cmath>
 #include <stdlib.h>	//<cstdlib>
+#include <time.h>
 
 #define DIM 1024 
 #define DM1 (DIM-1) 
@@ -13,7 +14,13 @@ unsigned char GR(int,int);
 unsigned char BL(int,int);
  
 unsigned char RD(int i,int j){
-	#define r(n) (rand()%n) 
+	static int initialized_flag = 0;
+	if (!initialized_flag) {
+		srand(time(NULL));
+		initialized_flag = 1;
+	}
+
+#define r(n) (rand()%n) 
 	static char c[1024][1024] = {0};
 	//!A?B?C:D:E = !A ? (B?C:D) : E
 	//如果A则E，对应如果c[i][j]有值，则返回c[i][j]
@@ -27,16 +34,19 @@ unsigned char RD(int i,int j){
 	//所以r(999)==0的概率对应了一个色块的大小，调整r(N)中的N值，可以看到色块大小的变化。
 	//return !c[i][j]?c[i][j]=!r(2)?r(256):RD ((i+r(2))%1024,(j+r(2))%1024):c[i][j];  //颗粒纹理
 	//return !c[i][j]?c[i][j]=!r(50000)?r(256):RD ((i+r(2))%1024,(j+r(2))%1024):c[i][j]; //栈调用过深，程序异常
-	//RD(i+r(N)%1024, j+r(M)%1024)中的M/N代表斜率
-	return !c[i][j]?c[i][j]=!r(999)?r(256):RD ((i+r(3))%1024,(j+r(3))%1024):c[i][j];
+	//RD(i+r(N)%1024, j+r(M)%1024)中的M/N代表斜率，M,N的值影响色块的宽度（isotropic，各向同性）
+	return !c[i][j]?c[i][j]=!r(999)?r(256):RD ((i+r(2))%1024,(j+r(2))%1024):c[i][j];
+	return 0x0;
 	}
 unsigned char GR(int i,int j){
 	static char c[1024][1024];
 	return !c[i][j]?c[i][j]=!r(999)?r(256):GR ((i+r(2))%1024,(j+r(2))%1024):c[i][j];
+	return 0x0;
 }
 unsigned char BL(int i,int j){
 	static char c[1024][1024];
 	//return !c[i][j]?c[i][j]=!r(999)?r(256):BL ((i-r(2))%1024,(j+r(2))%1024):c[i][j];  //相当于增加了一个斜率为1的蓝色浪潮透镜
+	//return !c[i][j]?c[i][j]=r(999)?BL((i+r(5)+1022)%1024,(j+r(5)+1022)%1024):r(256):c[i][j];  //树叶形状的斑驳色块
 	return !c[i][j]?c[i][j]=!r(999)?r(256):BL ((i+r(2))%1024,(j+r(2))%1024):c[i][j];
 }
  
